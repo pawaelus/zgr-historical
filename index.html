@@ -273,11 +273,29 @@
 
         var sidebar = L.control.sidebar('sidebar').addTo(map);
 
+        var crosshairIcon = L.icon({
+            iconUrl: 'images/fighting2.png',
+            iconSize: [20, 20], // size of the icon
+            iconAnchor: [10, 10], // point of the icon which will correspond to marker's location
+        });
+        crosshair = new L.circleMarker(map.getCenter(), {
+            // icon: crosshairIcon,
+            color: '#008D23',
+            radius: 5,
+            opacity: 0.5,
+            smoothFactor: 2,
+            clickable: false
+        });
+        crosshair.addTo(map);
+
 
         function onMapMove(e) {
             // alert("You clicked the map at " + e.latlng
             data2.features.forEach(printObject);
+            crosshair.setLatLng(map.getCenter());
         }
+
+
 
         map.on('move', onMapMove);
     </script>
