@@ -209,9 +209,9 @@
                 document.getElementById("content").innerHTML = "<p >" + element.properties.name + "</p>" +
                     "<p>" + element.properties.info + "</p>";
                 console.info(element.properties.name);
-
             } else {
-
+                document.getElementById("content").innerHTML = "<p>Brak informacji o obiekcie</p>"
+                    // console.info("no info");
             }
 
 
@@ -281,6 +281,7 @@
         crosshair = new L.circleMarker(map.getCenter(), {
             // icon: crosshairIcon,
             color: '#008D23',
+            weight: 2,
             radius: 5,
             opacity: 0.5,
             smoothFactor: 2,
@@ -298,6 +299,28 @@
 
 
         map.on('move', onMapMove);
+
+
+        function onLocationFound(e) {
+            var radius = e.accuracy / 2;
+
+            L.circleMarker(e.latlng).addTo(map)
+                .bindPopup("You are within " + radius + " meters from this point");
+
+            L.circle(e.latlng, radius).addTo(map);
+        }
+
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        map.on('locationfound', onLocationFound);
+        map.on('locationerror', onLocationError);
+
+        map.locate({
+            setView: false,
+            maxZoom: 16
+        });
     </script>
 </body>
 
